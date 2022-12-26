@@ -6,13 +6,17 @@
 #include "vector"
 #include "utility"
 #include "algorithm"
+#include "chrono" //gives access to the library
 using namespace std;
+using namespace std::chrono; //gives access to time sets like milliseconds for example
 
 int main() {
+    auto begin = chrono::high_resolution_clock::now();
     map<string,int>Words;
     fstream TextFile("C:\\Users\\49157\\Downloads\\slim\\k.txt");
     string line,word = " ";
     istringstream iss;
+    
     while (!TextFile.eof()) {
         getline(TextFile, line);
         iss.clear();
@@ -33,15 +37,13 @@ int main() {
     for(auto i:Words) {
         SortedWords.push_back({i.first, i.second});
     }
+    
     sort(SortedWords.begin(),SortedWords.end(),[](const pair<string,int>&S,const pair<string,int>&S1){return S.second > S1.second;});
     for(auto i:SortedWords) {
         cout << i.second << " " << i.first << endl;
     }
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - begin);
+    cout << "It took: "<< duration.count() << " ms for this code to run";
 }
-
-
-
-
-
-
-
